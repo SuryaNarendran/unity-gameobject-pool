@@ -8,6 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A pooling system for GameObjects to facilitate reuse
+/// </summary>
 public class GameObjectPool
 {
     public GameObject Prefab { get; set; }
@@ -18,6 +21,7 @@ public class GameObjectPool
 
     public IReadOnlyCollection<GameObject> ActiveObjects { get { return _activeObjects; } }
 
+    
     public GameObjectPool(GameObject prefab, int count, Transform parent=null)
     {
         Prefab = prefab;
@@ -25,7 +29,7 @@ public class GameObjectPool
         InstantiateObjects(count);
     }
 
-    //<summary> Gets a GameObject from the sleeping pool and activates it </summary>
+    ///<summary>Gets an activated GameObject from the sleeping pool</summary>
     public GameObject GetObject()
     {
         if (_sleepingObjects.Count < 1)
@@ -37,10 +41,10 @@ public class GameObjectPool
         return awakened;
     }
 
-    //<summary>Call this to return a member of the active pool to the sleeping pool. 
-    //The caller is responsible for first resetting the state of the returned GameObject to default if neccesary</summary>
+    ///<summary>Returns a member of the active pool to the sleeping pool</summary>
     public void ReturnObject(GameObject returned)
     {
+        //the caller is responsible for resetting the object to its default state, if necessary
         if (_activeObjects.Contains(returned))
         {
             _activeObjects.Remove(returned);
@@ -51,7 +55,7 @@ public class GameObjectPool
         else Debug.LogError("the returned game object is not a member of the pool!");
     }
 
-    //<summary>Creates prefab instances and adds them to the sleeping pool</summary>
+    ///<summary>Creates prefab instances and adds them to the sleeping pool</summary>
     public void InstantiateObjects(int count)
     {
         for (int i = 0; i < count; i++)
@@ -63,7 +67,7 @@ public class GameObjectPool
         }
     }
 
-    //<summary> Sets all members to inactive and returns them to the sleeping pool<summary>
+    ///<summary> Sets all members to inactive and returns them to the sleeping pool<summary>
     public void ReturnAll()
     {
         foreach(GameObject active in _activeObjects)
