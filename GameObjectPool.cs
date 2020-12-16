@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿//GameObject pooling script
+//Author: Surya Narendran (https://github.com/SuryaNarendran)
+//Date: 16 Dec 2020
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
